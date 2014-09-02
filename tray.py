@@ -16,6 +16,7 @@ import win32con
 import win32gui_struct
 import time
 import tempfile
+import sqlite3
 
 try:
     import winxpgui as win32gui
@@ -256,7 +257,14 @@ if __name__ == '__main__':
         sysTrayIcon.refresh_icon()
 
     #Launch the monitor
-    thread.start_new_thread(monitorMovies, ())
+    #thread.start_new_thread(monitorMovies, ())
+
+    #
+    conn = sqlite3.connect('movies.db')
+    c = conn.cursor()
+
+    # Initialize the database if required
+    c.execute('''CREATE TABLE if not exists movies (date text, name text, id text)''')
     
 
     menu_options = (
